@@ -24,3 +24,12 @@
 
 body { background:var(--parchment); color:var(--ink); }
 h1,h2,h3 { font-family:var(--font-royal); }
+
+.clip-path-crest {
+  clip-path: polygon(
+    2% 0%, 98% 0%,
+    100% 50%, 98% 100%,
+    2% 100%, 0% 50%
+  );
+}
+

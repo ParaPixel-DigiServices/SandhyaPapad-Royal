@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Cinzel, Poppins } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import RoyalCartOrb from "@/components/cart/RoyalCartOrb"
+import RoyalNavbar from "@/components/layout/RoyalNavbar"
+import PhoneGate from "@/components/auth/PhoneGate"
 
 const cinzel = Cinzel({ subsets:["latin"], weight:["400","600","700"], variable:"--font-royal" });
 const poppins = Poppins({ subsets:["latin"], weight:["300","400","500"], variable:"--font-body" });
@@ -21,7 +24,10 @@ export default function RootLayout({
       <body
         className={`${cinzel.variable} ${poppins.variable} antialiased`}
       >
+        <PhoneGate />
+        <RoyalNavbar />
         <Providers>{children}</Providers>
+        <RoyalCartOrb />
       </body>
     </html>
   );
