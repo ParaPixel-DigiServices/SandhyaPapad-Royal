@@ -77,7 +77,7 @@ export async function GET(req: Request, ctx:{ params:Promise<{ id:string }> }) {
 
   const bytes = await pdf.save()
 
-  return new NextResponse(bytes,{
+  return new NextResponse(Buffer.from(bytes),{
     headers:{
       "Content-Type":"application/pdf",
       "Content-Disposition":`attachment; filename="Sandhya-Royal-Invoice-${order.id.slice(0,6)}.pdf"`
