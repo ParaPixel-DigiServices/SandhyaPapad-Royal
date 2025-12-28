@@ -1,19 +1,16 @@
 "use client"
-import { useParams } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
-import { supabase } from "@/lib/supabase"
 import RoyalPaymentShrine from "@/components/payment/RoyalPaymentShrine"
+import { useCart } from "@/store/cart"
+import { useMemo } from "react"
 
 export default function PaymentPage() {
-  const { orderId } = useParams()
+  const { items } = useCart()
 
-  const { data: order } = useQuery({
-    queryKey: ["order", orderId],
-    queryFn: async () =>
-      (await supabase.from("orders_v2").select("*").eq("id", orderId).single()).data
-  })
-
-  if (!order) return null
+  const order = useMemo(() => ({
+    id: "ROYAL-DEMO-001",
+    total: items.reduce((s,i)=>s + i.price * i.qty, 0),
+    status: "pending"
+  }), [items])
 
   return <RoyalPaymentShrine order={order} />
 }

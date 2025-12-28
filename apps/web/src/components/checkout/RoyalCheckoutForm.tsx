@@ -1,10 +1,9 @@
 "use client"
 import { useState } from "react"
 import { useCart } from "@/store/cart"
-import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 
-export default function RoyalCheckoutForm() {
+export default function RoyalCheckoutForm({ onDemoSubmit }:{ onDemoSubmit?:()=>void }) {
   const router = useRouter()
   const { items, clear } = useCart()
 
@@ -21,42 +20,15 @@ export default function RoyalCheckoutForm() {
     setForm(f => ({ ...f, [k]: v }))
 
   const submit = async () => {
-    const total = items.reduce((s, i) => s + i.price * i.qty, 0)
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return alert("Please login to continue")
+    // 🌟 DEMO MODE ACTIVE
+    if(onDemoSubmit){
+      clear()
+      onDemoSubmit()
+      return
+    }
 
-    const { data: order, error } = await supabase
-      .from("orders_v2")
-      .insert({
-        user_id: user.id,
-        customer_name: form.name,
-        phone: form.phone,
-        address: form.address,
-        city: form.city,
-        state: form.state,
-        pincode: form.pincode,
-        total,
-        status: "pending"
-      })
-      .select()
-      .single()
-
-    if (error || !order) return alert("Order failed")
-
-    await supabase.from("order_items_v2").insert(
-      items.map(i => ({
-        order_id: order.id,
-        user_id: user.id,
-        product_id: i.id,
-        name: i.name,
-        price: i.price,
-        qty: i.qty
-      }))
-    )
-
-    clear()
-    router.push(`/payment/${order.id}`)
+    // (Real backend logic will be restored later)
   }
 
   return (

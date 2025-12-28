@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pdf-lib/fontkit": "^1.1.1",
+    "@supabase/auth-helpers-nextjs": "^0.15.0",
     "@supabase/supabase-js": "^2.89.0",
     "@tanstack/react-query": "^5.90.12",
     "framer-motion": "^12.23.26",
